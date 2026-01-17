@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,13 +45,18 @@ namespace Contact_Manager
                         break;
                 }
             }
+
+            service.SaveKontakte();
+            //TODO: Save contacts to JSON file
+            Console.WriteLine("Thank you for using the Contact Manager.");
         }
+
         public static void GetContactInput(KontaktService service)
         {
             Console.Write("First Name: ");
             var firstName = Console.ReadLine() ?? "";
 
-            Console.Write("First Name: ");
+            Console.Write("Last Name: ");
             var lastName = Console.ReadLine() ?? "";
 
             Console.Write("Email: ");
@@ -66,16 +72,26 @@ namespace Contact_Manager
         }
         public static void ListContacts(KontaktService service)
         {
+            if (service.Kontakte.Count == 0)
+            {
+                Console.WriteLine("No contacts found.");
+                return;
+            }
             foreach (var contact in service.Kontakte)
             {
                 Console.WriteLine(contact.ToString());
             }
 
-            //TODO: Handle no contacts case
         }
 
         public static void DeleteContact(KontaktService service)
         {
+            //Check if there are any contacts to delete in first place
+            if (service.Kontakte.Count == 0)
+            {
+                Console.WriteLine("No contacts yet.");
+                return;
+            }
             Console.Write("Enter the ID of the contact to delete: ");
             int id = Convert.ToInt32(Console.ReadLine());
             bool success = service.RemoveKontakt(id);
@@ -94,3 +110,6 @@ namespace Contact_Manager
 
     }
 }
+
+
+/* Why did i mix languages. whyyyy. Stoopid german */
