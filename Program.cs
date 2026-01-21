@@ -12,7 +12,7 @@ namespace Contact_Manager
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the Contact Manager. Please use your Keyboard to input any data. Decide what to do using numerical inputs.");
+            Console.WriteLine("Welcome to the Contact Manager. Please use your keyboard to input any data. Decide what to do using numerical inputs.\n'0' lets you return to this screen.");
             KontaktService kontaktService = new KontaktService();
             Run(true, kontaktService);
         }
@@ -30,6 +30,8 @@ namespace Contact_Manager
                 int input = Convert.ToInt32(Console.ReadLine());
                 switch (input)
                 {
+                    case 0:
+                        return;
                     case 1:
                         GetContactInput(service);
                         break;
@@ -48,22 +50,38 @@ namespace Contact_Manager
 
             service.SaveKontakte();
             //TODO: Save contacts to JSON file
-            Console.WriteLine("Thank you for using the Contact Manager.");
+            Console.WriteLine("Thank you for using the Contact Manager."); //Program ends here.
         }
 
         public static void GetContactInput(KontaktService service)
         {
+            //TODO:Exit possibility
+
+            string input = "";
+
             Console.Write("First Name: ");
-            var firstName = Console.ReadLine() ?? "";
+            input = Console.ReadLine();
+
+            if (CancelInput(input)) return;
+            string firstName = input;
 
             Console.Write("Last Name: ");
-            var lastName = Console.ReadLine() ?? "";
+            input = Console.ReadLine();
+
+            if (CancelInput(input)) return;
+            string lastName = input;
 
             Console.Write("Email: ");
-            var email = Console.ReadLine() ?? "";
+            input = Console.ReadLine();
+
+            if (CancelInput(input)) return;
+            string email = input;
 
             Console.Write("Phone: ");
-            var phone = Console.ReadLine() ?? "";
+            input = Console.ReadLine();
+
+            if (CancelInput(input)) return;
+            string phone = input;
 
             service.AddKontakt(firstName, lastName, email, phone);
             Console.WriteLine("Contact added.");
@@ -93,7 +111,9 @@ namespace Contact_Manager
                 return;
             }
             Console.Write("Enter the ID of the contact to delete: ");
-            int id = Convert.ToInt32(Console.ReadLine());
+            string input = Console.ReadLine();
+            if (CancelInput(input)) return;
+            int id = Convert.ToInt32(input);
             bool success = service.RemoveKontakt(id);
             //if (success)
             //{
@@ -106,6 +126,16 @@ namespace Contact_Manager
             //Code above handled in Service class' method.
 
             //Todo : Handle invalid input (non-integer) and Exit possibility
+        }
+
+        public static bool CancelInput(string input)
+        {
+            if (input == "0")
+            {
+                Console.WriteLine("Cancelled process.");
+                return true;
+            }
+            return false;
         }
 
     }

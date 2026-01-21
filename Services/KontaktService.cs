@@ -74,7 +74,7 @@ namespace Contact_Manager.Services
                 WriteIndented = true
             };
             string jsonString = JsonSerializer.Serialize(Kontakte, options);
-            Console.WriteLine(jsonString);
+            //Console.WriteLine(jsonString);
             FileStream fs = new FileStream("kontakte.json", FileMode.OpenOrCreate);
             StreamWriter sw = new StreamWriter(fs);
             sw.Write(jsonString);
@@ -95,7 +95,7 @@ namespace Contact_Manager.Services
                 if (Kontakte.Count > 0) 
                 {
                     IDCounter = Kontakte.Max(x => x.Id) + 1;
-                    Console.WriteLine(IDCounter);
+                    //Console.WriteLine(IDCounter);
                 }
             }
         }
